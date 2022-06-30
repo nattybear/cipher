@@ -12,4 +12,15 @@ uncaesar :: Int -> Char -> Char
 uncaesar = caesar . negate
 
 vigenere :: String -> String -> String
-vigenere keyword message = undefined
+vigenere keyword message = map (uncurry caesar) pairs'
+  where
+    pairs' = map (\(k, m) -> ((ord . toLower) k - 97, m)) pairs
+
+    pairs  = zip' (cycle keyword) message
+
+    zip' _        []     = []
+    zip' k@(x:xs) (y:ys) = if y == ' '
+                           then (' ', ' ') : zip' k  ys
+                           else ( x ,  y ) : zip' xs ys
+    
+
