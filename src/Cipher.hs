@@ -10,3 +10,6 @@ caesar n c
 
 uncaesar :: Int -> Char -> Char
 uncaesar = caesar . negate
+
+vigenere :: String -> String -> String
+vigenere keyword message = undefined
