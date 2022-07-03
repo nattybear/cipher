@@ -22,3 +22,15 @@ vigenere keyword message = map (uncurry caesar) pairs'
     zip' k@(x:xs) (y:ys) = if y == ' '
                            then (' ', ' ') : zip' k  ys
                            else ( x ,  y ) : zip' xs ys
+
+caesarIO :: IO Char
+caesarIO = do
+  n   <- read <$> getLine
+  [c] <- getLine
+  return $ caesar n c
+
+vigenereIO :: IO String
+vigenereIO = do
+  keyword <- getLine
+  message <- getLine
+  return $ vigenere keyword message
