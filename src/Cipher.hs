@@ -5,7 +5,7 @@ import Data.Char
 caesar :: Int -> Char -> Char
 caesar n c = if    'a' <=  c
                 &&  c  <= 'z'
-                && 'A' <=  c
+                || 'A' <=  c
                 &&  c  <= 'Z'
              then chr $ (ord c + n - a) `mod` 26 + a
              else c
@@ -17,8 +17,8 @@ caesar n c = if    'a' <=  c
 uncaesar :: Int -> Char -> Char
 uncaesar = caesar . negate
 
-vigenere :: String -> String -> String
-vigenere keyword message = map (uncurry caesar) pairs'
+vigenere' :: (Int -> Char -> Char) -> String -> String -> String
+vigenere' f keyword message = map (uncurry f) pairs'
   where
     pairs' = map (\(k, m) -> ((ord . toLower) k - 97, m)) pairs
 
@@ -28,6 +28,12 @@ vigenere keyword message = map (uncurry caesar) pairs'
     zip' k@(x:xs) (y:ys) = if y == ' '
                            then (' ', ' ') : zip' k  ys
                            else ( x ,  y ) : zip' xs ys
+
+vigenere :: String -> String -> String
+vigenere = vigenere' caesar
+
+unvigenere :: String -> String -> String
+unvigenere = vigenere' uncaesar
 
 caesarIO :: IO Char
 caesarIO = do
