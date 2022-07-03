@@ -22,5 +22,3 @@ vigenere keyword message = map (uncurry caesar) pairs'
     zip' k@(x:xs) (y:ys) = if y == ' '
                            then (' ', ' ') : zip' k  ys
                            else ( x ,  y ) : zip' xs ys
-    
-
